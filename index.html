@@ -9,12 +9,33 @@
   <body>
     <h1>Hello Frontend Masters!</h1>
     <div id="app">
+      <!-- Event handling -->
+      <h2>Counter</h2>
+      <p>{{ count }}</p>
+      <!-- Directive to call defined methods -->
+      <!-- Use colon for event and pass reference to the function -->
+      <button v-on:click="incrementCount">Increment Count</button>
+      <!-- Set increment amount -->
+      <h2>{{ incrementAmount }}</h2>
+      <div>
+        <label for="incrementAmount">Increment by:</label>
+        <!-- Bind the value to a dynamic property -->
+        <!-- Add event to listen to input -->
+        <input
+          type="number"
+          v-bind:value="incrementAmount"
+          v-on:input="changeIncrementAmount"
+        />
+        <!-- `v-model` handles two-way binding without needing the `changeIncrementAmount` method -->
+        <input type="number" v-model="incrementAmount" />
+      </div>
       <!-- JS statments evaluated in double curly braces -->
       <p v-if="message.length % 2 === 0">Even: {{ message.toUpperCase() }}</p>
       <p v-else>Odd: {{ message }}</p>
       <ul>
         <li v-for="number in listOfNumbers">{{ number }}</li>
       </ul>
+      <hr />
     </div>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script>
@@ -32,7 +53,23 @@
             // Access with double curly braces in HTML
             message: "Hello it works",
             listOfNumbers: [1, 2, 3, 4, 5],
+            count: 10,
+            // Reactive data property
+            incrementAmount: 8,
           };
+        },
+        // Functions that the app can call at any time
+        methods: {
+          incrementCount() {
+            // Referring to `count` of this app (defined in data function)
+            // Will add as string if not explicitly set to number here
+            this.count += Number(this.incrementAmount);
+          },
+          // `incrementCount()` not required when using `v-model, or specifying `Number` type
+          changeIncrementAmount(event) {
+            console.log(event.target.value);
+            this.incrementAmount = event.target.value;
+          },
         },
       });
       app.mount("#app");
