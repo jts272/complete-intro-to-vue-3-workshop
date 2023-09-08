@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Simpsons</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- Conditional list rendering -->
+      <h1 v-if="characters.length === 0">No Simpsons characters to display!</h1>
+      <!-- These DOM elements only exist if condition is true -->
+      <ul v-else>
+        <li v-for="character in characters">
+          {{ character.name }}
+          <ul>
+            <li>Actor: {{ character.actor }}</li>
+            <li>ID: {{ character.id }}</li>
+          </ul>
+        </li>
+      </ul>
+      <!-- END Conditional list rendering -->
+    </div>
+  </body>
+  <!-- Vue CDN link -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    // Create app with destructuring
+    const { createApp } = Vue;
+    // Data goes in an object as a `createApp()` parameter
+    const app = createApp({
+      // data is a function to remain dynamic
+      // data() {
+      //   // It returns a list of objects here
+      //   return {
+      //     characters: [
+      //       { name: "Homer Simpson", actor: "Dan Castellaneta", id: 1 },
+      //       { name: "Marge Simpson", actor: "Julie Kavner", id: 2 },
+      //       { name: "Bart Simpson", actor: "Nancy Cartwright", id: 3 },
+      //       { name: "Lisa Simpson", actor: "Yeardley Smith", id: 4 },
+      //       { name: "Maggie Simpson", actor: "Liz Georges", id: 5 },
+      //     ],
+      //   };
+      // },
+      // Implicit return syntax (wrapped in parentheses for expression)
+      data: () => ({
+        characters: [
+          { name: "Homer Simpson", actor: "Dan Castellaneta", id: 1 },
+          { name: "Marge Simpson", actor: "Julie Kavner", id: 2 },
+          { name: "Bart Simpson", actor: "Nancy Cartwright", id: 3 },
+          { name: "Lisa Simpson", actor: "Yeardley Smith", id: 4 },
+          { name: "Maggie Simpson", actor: "Liz Georges", id: 5 },
+        ],
+      }),
+      // Mount directly from `createApp()`
+    }).mount("#app");
+  </script>
+</html>
