@@ -4,7 +4,109 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Playground — Complete Intro to Vue 3</title>
+    <title>The Simpsons</title>
   </head>
-  <body></body>
+  <body>
+    <div id="app">
+      <!-- Conditional list rendering -->
+      <h1 v-if="characters.length === 0">No Simpsons characters to display!</h1>
+      <!-- These DOM elements only exist if condition is true -->
+      <ul v-else>
+        <li v-for="character in characters">
+          {{ character.name }}
+          <ul>
+            <li>Actor: {{ character.actor }}</li>
+            <li>ID: {{ character.id }}</li>
+          </ul>
+          <!-- Exercise: Add a character to a list of favourites -->
+          <!-- Solution: Pass the character from the loop to the click function -->
+          <button v-on:click="addToFavourites(character.name)">
+            Add to Favourites
+          </button>
+        </li>
+      </ul>
+      <!-- Exercise to add favourites -->
+      <h2>Favourite characters</h2>
+      <ul v-if="favourites.length > 0">
+        <li v-for="favourite in favourites">{{ favourite }}</li>
+      </ul>
+      <p v-else>No favourites yet!</p>
+      <!-- Adding new characters -->
+      <h2>Add a new character</h2>
+      <label for="character-name">Name</label>
+      <!-- Input elements reflect the data structure of `newCharacter` -->
+      <!-- Input just for object `name` value -->
+      <!-- Using `@` syntax for `v-on:` events -->
+      <!-- Update with enter key, not every keyup -->
+      <input
+        type="text"
+        v-model="newCharacter.name"
+        @keyup.enter="addNewCharacter"
+      />
+      <!-- Actor -->
+      <input type="text" v-model="newCharacter.actor" />
+      <!-- ID number -->
+      <input type="number" v-model="newCharacter.id" />
+      <!-- Render new character object in preformatted element -->
+      <pre>{{ newCharacter }}</pre>
+      <!-- END Adding new characters -->
+      <!-- END Conditional list rendering -->
+    </div>
+  </body>
+  <!-- Vue CDN link -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    // Create app with destructuring
+    const { createApp } = Vue;
+    // Data goes in an object as a `createApp()` parameter
+    const app = createApp({
+      // data is a function to remain dynamic
+      // data() {
+      //   // It returns a list of objects here
+      //   return {
+      //     characters: [
+      //       { name: "Homer Simpson", actor: "Dan Castellaneta", id: 1 },
+      //       { name: "Marge Simpson", actor: "Julie Kavner", id: 2 },
+      //       { name: "Bart Simpson", actor: "Nancy Cartwright", id: 3 },
+      //       { name: "Lisa Simpson", actor: "Yeardley Smith", id: 4 },
+      //       { name: "Maggie Simpson", actor: "Liz Georges", id: 5 },
+      //     ],
+      //   };
+      // },
+      // Implicit return syntax (wrapped in parentheses for expression)
+      data: () => ({
+        characters: [
+          { name: "Homer Simpson", actor: "Dan Castellaneta", id: 1 },
+          { name: "Marge Simpson", actor: "Julie Kavner", id: 2 },
+          { name: "Bart Simpson", actor: "Nancy Cartwright", id: 3 },
+          { name: "Lisa Simpson", actor: "Yeardley Smith", id: 4 },
+          { name: "Maggie Simpson", actor: "Liz Georges", id: 5 },
+        ],
+        favourites: [],
+        // Store new characters in an object
+        // We define the data structure here
+        newCharacter: {
+          name: "",
+          actor: "",
+          id: null,
+        },
+      }),
+      methods: {
+        addToFavourites(character) {
+          console.log(character);
+
+          // `push()` for arrays; don't use addition operator `+=`
+          // this.favourites += character;
+          this.favourites.push(character);
+          console.log(this.favourites);
+        },
+        addNewCharacter() {
+          this.characters.push(this.newCharacter);
+          // Clear the `newCharacter` Vue data object when function is called
+          this.newCharacter = { name: "", actor: "", id: null };
+        },
+      },
+      // Mount directly from `createApp()`
+    }).mount("#app");
+  </script>
 </html>
