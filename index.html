@@ -6,5 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <h1>Hello Frontend Masters!</h1>
+    <div id="app">{{ message }}</div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      // Vue setup
+      // Destructuring syntax for Vue.createApp
+      const { createApp } = Vue;
+      const app = createApp({
+        // Function to track data
+        data() {
+          return {
+            // Access with double curly braces in HTML
+            message: "Hello it works!",
+          };
+        },
+      });
+      app.mount("#app");
+      // END Vue setup
+    </script>
+  </body>
 </html>
