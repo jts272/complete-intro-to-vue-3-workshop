@@ -8,6 +8,16 @@
   </head>
   <body>
     <div id="app">
+      <!-- Exercise: Statistics -->
+      <h2>Statistics</h2>
+      <ul>
+        <li>White:</li>
+        <li>Blue:</li>
+        <!-- Return from computed function for characters with orange colour -->
+        <li>Orange: {{ orangeCharList.length }}</li>
+        <li>Green:</li>
+      </ul>
+      <!-- END Exercise: Statistics -->
       <!-- Conditional list rendering -->
       <h1 v-if="characters.length === 0">No Simpsons characters to display!</h1>
       <!-- These DOM elements only exist if condition is true -->
@@ -76,11 +86,36 @@
       // Implicit return syntax (wrapped in parentheses for expression)
       data: () => ({
         characters: [
-          { name: "Homer Simpson", actor: "Dan Castellaneta", id: 1 },
-          { name: "Marge Simpson", actor: "Julie Kavner", id: 2 },
-          { name: "Bart Simpson", actor: "Nancy Cartwright", id: 3 },
-          { name: "Lisa Simpson", actor: "Yeardley Smith", id: 4 },
-          { name: "Maggie Simpson", actor: "Liz Georges", id: 5 },
+          {
+            name: "Homer Simpson",
+            actor: "Dan Castellaneta",
+            id: 1,
+            colour: "white, blue",
+          },
+          {
+            name: "Marge Simpson",
+            actor: "Julie Kavner",
+            id: 2,
+            colour: "green",
+          },
+          {
+            name: "Bart Simpson",
+            actor: "Nancy Cartwright",
+            id: 3,
+            colour: "orange, blue",
+          },
+          {
+            name: "Lisa Simpson",
+            actor: "Yeardley Smith",
+            id: 4,
+            colour: "orange",
+          },
+          {
+            name: "Maggie Simpson",
+            actor: "Liz Georges",
+            id: 5,
+            colour: "blue",
+          },
         ],
         favourites: [],
         // Store new characters in an object
@@ -89,8 +124,19 @@
           name: "",
           actor: "",
           id: null,
+          colour: [],
         },
       }),
+      // For statistics exercise
+      computed: {
+        // The computed object is looking for functions
+        orangeCharList() {
+          return this.characters.filter(
+            // Presence check for orange colour
+            (character) => character.colour.indexOf("orange") > -1
+          );
+        },
+      },
       methods: {
         addToFavourites(character) {
           console.log(character);

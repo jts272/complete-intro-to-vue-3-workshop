@@ -15,4 +15,16 @@ By participating along with us in the workshop, you'll learn:
 
 Ben Hong is a Vue.js Core Team member and a Senior Staff Developer Experience (DX) Engineer at Netlify. He is also a developer / psychologist / educator hybrid who is passionate about creating products that help to empower people with new skills and knowledge regardless of their background.
 
-You can learn more about his work at https://www.bencodezen.io.
+You can learn more about his work at <https://www.bencodezen.io>.
+
+---
+
+## Notes
+
+### Computed Properties Exercise
+
+- Use `watch` when you are looking for a specific action or side effect you want
+  to trigger.
+- Use `computed` for managing data.
+- If you are returning an object from a computed property, the keys and values
+  can be accessed in a `v-for`.
