@@ -10,13 +10,18 @@
     <h1>Hello Frontend Masters!</h1>
     <div id="app">
       <!-- Event handling -->
-      <h2>Counter</h2>
+      <!-- watched -->
+      <h2>{{ counterTitle }}</h2>
+      <!-- computed -->
+      <h2>{{ displayTitle }}</h2>
       <p>{{ count }}</p>
       <!-- Directive to call defined methods -->
       <!-- Use colon for event and pass reference to the function -->
       <button v-on:click="incrementCount">Increment Count</button>
       <!-- Set increment amount -->
       <h2>{{ incrementAmount }}</h2>
+      <!-- Show the optimized amount - it changes reactively as the title length changes -->
+      <p>{{ optimizedIncrementAmount }}</p>
       <div>
         <label for="incrementAmount">Increment by:</label>
         <!-- Bind the value to a dynamic property -->
@@ -56,19 +61,50 @@
             count: 10,
             // Reactive data property
             incrementAmount: 8,
+            counterTitle: "Counter Standard",
           };
+        },
+        // For calculations on reactive data
+        // Pattern: trigger all calculations from one source of truth: `data()`
+        // Instead of doing brittle `watch` functions
+        computed: {
+          displayTitle() {
+            if (this.count > 20) {
+              return "Counter Standard - Very Long";
+            } else {
+              return "Counter Standard";
+            }
+          },
+          // Increments from computed property of title length
+          // Depends on another computed property and a data value
+          optimizedIncrementAmount() {
+            return this.displayTitle.length * this.incrementAmount;
+          },
         },
         // Functions that the app can call at any time
         methods: {
           incrementCount() {
             // Referring to `count` of this app (defined in data function)
             // Will add as string if not explicitly set to number here
-            this.count += Number(this.incrementAmount);
+            // this.count += Number(this.incrementAmount);
+            // Now uses computed values instead of just a data value to change by a large amount
+            this.count += this.optimizedIncrementAmount;
           },
           // `incrementCount()` not required when using `v-model, or specifying `Number` type
           changeIncrementAmount(event) {
             console.log(event.target.value);
             this.incrementAmount = event.target.value;
+          },
+        },
+        // Watch something for computed properties
+        watch: {
+          // Define the values that will be referred to in the parameters
+          count(newValue) {
+            console.log(newValue);
+            // When watched condition is met, do this
+            if (newValue > 20) {
+              this.counterTitle += " Very Long";
+            }
           },
         },
       });
